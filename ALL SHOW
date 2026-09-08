@@ -1,0 +1,114 @@
+print("====================================")
+print("  🚀 INTERCEPTING EXCLUSIVITY ONLY... ")
+print("====================================")
+
+local assets = game:GetService("ReplicatedStorage"):WaitForChild("Assets")
+local unlockCount = 0
+
+-- Helper function to safely isolate and patch only the Exclusive field
+local function patchConfig(configModule, debugName)
+    if configModule and configModule:IsA("ModuleScript") then
+        local success, liveData = pcall(function()
+            return require(configModule)
+        end)
+        
+        if success and type(liveData) == "table" then
+            -- ONLY changing this value
+            liveData.Exclusive = false
+            unlockCount = unlockCount + 1
+            print("Set Exclusive = false for: " .. tostring(debugName))
+        end
+    end
+end
+-- ================================================
+-- STEP 3: PATCH SURVIVOR: HELPERBOT
+-- ================================================
+local helperbotConfig = assets:FindFirstChild("Survivors")
+    and assets.Survivors:FindFirstChild("Helperbot")
+    and assets.Survivors.Helperbot:FindFirstChild("Config")
+
+if helperbotConfig then
+    patchConfig(helperbotConfig, "Survivor: Helperbot")
+end
+
+
+-- ================================================
+-- STEP 1: PATCH ALL MAIN KILLER CHARACTERS
+-- ================================================
+local killersFolder = assets:FindFirstChild("Killers")
+if killersFolder then
+    for _, killer in pairs(killersFolder:GetChildren()) do
+        if killer:IsA("Folder") then
+            local config = killer:FindFirstChild("Config")
+            patchConfig(config, "Killer: " .. killer.Name)
+        elseif killer:IsA("ModuleScript") then
+            patchConfig(killer, "Standalone Killer: " .. killer.Name)
+        end
+    end
+end
+
+local killersFolder = assets:FindFirstChild("Survivors")
+if killersFolder then
+    for _, killer in pairs(killersFolder:GetChildren()) do
+        if killer:IsA("Folder") then
+            local config = killer:FindFirstChild("Config")
+            patchConfig(config, "Killer: " .. killer.Name)
+        elseif killer:IsA("ModuleScript") then
+            patchConfig(killer, "Standalone Killer: " .. killer.Name)
+        end
+    end
+end
+
+
+local killersFolder = assets:FindFirstChild("Emotes")
+if killersFolder then
+    for _, killer in pairs(killersFolder:GetChildren()) do
+        if killer:IsA("Folder") then
+            local config = killer:FindFirstChild("Config")
+            patchConfig(config, "Killer: " .. killer.Name)
+        elseif killer:IsA("ModuleScript") then
+            patchConfig(killer, "Standalone Killer: " .. killer.Name)
+        end
+    end
+end
+
+-- ================================================
+-- STEP 2: PATCH ALL KILLER COSMETIC SKINS
+-- ================================================
+local skinsFolder = assets:FindFirstChild("Skins") 
+    and assets.Skins:FindFirstChild("Killers")
+
+if skinsFolder then
+    for _, killerBucket in pairs(skinsFolder:GetChildren()) do
+        if killerBucket:IsA("Folder") then
+            for _, skinFolder in pairs(killerBucket:GetChildren()) do
+                if skinFolder:IsA("Folder") then
+                    local config = skinFolder:FindFirstChild("Config")
+                    patchConfig(config, "Skin: " .. killerBucket.Name .. " -> " .. skinFolder.Name)
+                end
+            end
+        end
+    end
+end
+
+local skinsFolder = assets:FindFirstChild("Skins") 
+    and assets.Skins:FindFirstChild("Survivors")
+
+if skinsFolder then
+    for _, killerBucket in pairs(skinsFolder:GetChildren()) do
+        if killerBucket:IsA("Folder") then
+            for _, skinFolder in pairs(killerBucket:GetChildren()) do
+                if skinFolder:IsA("Folder") then
+                    local config = skinFolder:FindFirstChild("Config")
+                    patchConfig(config, "Skin: " .. killerBucket.Name .. " -> " .. skinFolder.Name)
+                end
+            end
+        end
+    end
+end
+
+
+
+print("====================================")
+print(" ✅ DONE! Force-unlocked " .. tostring(unlockCount) .. " total items.")
+print("====================================")
