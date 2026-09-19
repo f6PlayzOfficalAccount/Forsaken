@@ -3,7 +3,7 @@ print("  🚀 INTERCEPTING EXCLUSIVITY ONLY... ")
 print("              Version 2             ")
 print("====================================")
 local Ver = 2
-local NewVersion = loadstring(game:HttpGet("https://raw.githubusercontent.com/f6PlayzOfficalAccount/ShowAllForsaken/refs/heads/main/VersionCurrent"))
+--local NewVersion = loadstring(game:HttpGet("https://raw.githubusercontent.com/f6PlayzOfficalAccount/ShowAllForsaken/refs/heads/main/VersionCurrent"))
 
 local assets = game:GetService("ReplicatedStorage"):WaitForChild("Assets")
 local unlockCount = 0
@@ -135,23 +135,38 @@ local Tab = Window:CreateTab("Main ", "home") -- Title, Image
 local Section = Tab:CreateLabel("Welcome back! " .. game.Players.LocalPlayer.DisplayName)
 
 
-if Ver == NewVersion then
+local Ver = 2
+
+-- Safely try to fetch the version from GitHub
+local success, result = pcall(function()
+    return loadstring(game:HttpGet("https://raw.githubusercontent.com/f6PlayzOfficalAccount/ShowAllForsaken/refs/heads/main/VersionCurrent"))()
+end)
+
+local NewVersion = success and tonumber(result) or nil
+
+-- Version check notifications
+if not NewVersion then
+    Rayfield:Notify({
+        Title = "Connection Warning",
+        Content = "Could not check latest version from GitHub.",
+        Duration = 6.5,
+        Image = 4483362458,
+    })
+elseif Ver == NewVersion then
     Rayfield:Notify({
         Title = "All Good!",
         Content = "Up to date!",
         Duration = 6.5,
         Image = 4483362458,
     })
-end
-if Ver > NewVersion then
+elseif Ver > NewVersion then
     Rayfield:Notify({
         Title = "Your version may Not exist",
-        Content = "Version is bigegr than original",
+        Content = "Version is bigger than original",
         Duration = 6.5,
         Image = 4483362458,
     })
-end
-if Ver < NewVersion then
+elseif Ver < NewVersion then
     Rayfield:Notify({
         Title = "Your version may be outdated",
         Content = "Outdated version.",
