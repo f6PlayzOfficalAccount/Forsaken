@@ -1,8 +1,8 @@
 print("====================================")
 print("  🚀 INTERCEPTING EXCLUSIVITY ONLY... ")
-print("              Version 2             ")
+print("              Version 3             ")
 print("====================================")
-local Ver = 2
+local Ver = 3
 --local NewVersion = loadstring(game:HttpGet("https://raw.githubusercontent.com/f6PlayzOfficalAccount/ShowAllForsaken/refs/heads/main/VersionCurrent"))
 
 local assets = game:GetService("ReplicatedStorage"):WaitForChild("Assets")
@@ -174,6 +174,14 @@ elseif Ver < NewVersion then
         Image = 4483362458,
     })
 end
+
+local Paragraph = Tab:CreateParagraph({Title = "RISKS ", Content = [=[
+If you are planing to buy exclusive stuff , GET AN ALT ACCOUNT
+If the devs find out and then it may search your data file
+and ban you if they add that in an update
+
+please dont plan on buying any stuff from here, just explore for now on ur mains
+]=]})
 
 Tab:CreateButton({
     Name = "Copy Discord Link",
